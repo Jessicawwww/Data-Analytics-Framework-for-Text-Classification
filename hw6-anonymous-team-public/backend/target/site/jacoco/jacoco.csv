@@ -1,0 +1,15 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+hw6,edu.cmu.cs.cs214.hw6.framework.WordFinder,LocationFinder,5,0,0,0,2,0,2,0,2,0
+hw6,edu.cmu.cs.cs214.hw6.framework.WordFinder,WordFinder,0,83,0,2,0,15,0,4,0,3
+hw6,edu.cmu.cs.cs214.hw6.framework.WordFinder,OrgFinder,5,0,0,0,2,0,2,0,2,0
+hw6,edu.cmu.cs.cs214.hw6.framework.WordFinder,TokenFinder,2,8,0,0,1,2,1,2,1,2
+hw6,edu.cmu.cs.cs214.hw6.framework.WordFinder,NameFinder,0,5,0,0,0,2,0,2,0,2
+hw6,edu.cmu.cs.cs214.hw6.plugins,RTFPlugin,432,0,42,0,97,0,34,0,13,0
+hw6,edu.cmu.cs.cs214.hw6.plugins,JSONPlugin,177,63,10,2,31,17,12,7,7,6
+hw6,edu.cmu.cs.cs214.hw6.plugins,DOCXPlugin,415,0,40,0,89,0,33,0,13,0
+hw6,edu.cmu.cs.cs214.hw6.plugins,TXTPlugin,396,0,30,0,79,0,28,0,13,0
+hw6,edu.cmu.cs.cs214.hw6.plugins,PDFPlugin,248,123,21,9,43,32,19,9,7,6
+hw6,edu.cmu.cs.cs214.hw6,APP,251,0,12,0,53,0,10,0,4,0
+hw6,edu.cmu.cs.cs214.hw6.framework,ResumeFramework,31,206,4,6,9,34,4,9,1,7
+hw6,edu.cmu.cs.cs214.hw6.framework,Experience,41,130,7,7,12,30,8,10,1,10
+hw6,edu.cmu.cs.cs214.hw6.framework,Resume,5,178,2,6,1,42,2,16,0,14

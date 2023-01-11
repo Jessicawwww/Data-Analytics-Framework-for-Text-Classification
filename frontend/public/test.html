@@ -1,0 +1,16 @@
+<a href="index.html"><button style="width:100%">Go Back</button></a>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script>
+const ctx = document.getElementById('myChart');
+new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+    labels:
+['People & Society','Travel & Transportation','Health','Business & Industrial','News','Beauty & Fitness','Law & Government','Arts & Entertainment','Computers & Electronics','Sensitive Subjects','Sports'],datasets: [{label: 'Topic Frequency',
+data:
+[1, 1, 1, 1, 2, 1, 1, 5, 1, 5, 1]}]},
+options: {}
+});
+</script>

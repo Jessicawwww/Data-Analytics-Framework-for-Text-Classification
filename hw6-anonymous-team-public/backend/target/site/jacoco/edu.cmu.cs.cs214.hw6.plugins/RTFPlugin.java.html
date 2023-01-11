@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RTFPlugin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6</a> &gt; <a href="index.source.html" class="el_package">edu.cmu.cs.cs214.hw6.plugins</a> &gt; <span class="el_source">RTFPlugin.java</span></div><h1>RTFPlugin.java</h1><pre class="source lang-java linenums">package edu.cmu.cs.cs214.hw6.plugins;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
+
+import java.io.*;
+
+import edu.cmu.cs.cs214.hw6.framework.DataPlugin;
+import edu.cmu.cs.cs214.hw6.framework.Experience;
+import edu.cmu.cs.cs214.hw6.framework.ResumeFramework;
+
+import java.io.IOException; 
+
+
+
+<span class="nc" id="L21">public class RTFPlugin implements DataPlugin{</span>
+<span class="nc" id="L22">    private final int num3 = 3;</span>
+    private String[] splitDocumentText;
+<span class="nc" id="L24">    private String documentText = &quot;&quot;;</span>
+
+    @Override
+    public void parseDataResource(String path) throws IOException {
+<span class="nc" id="L28">        RTFEditorKit rtf = new RTFEditorKit();</span>
+<span class="nc" id="L29">        Document doc = rtf.createDefaultDocument();</span>
+
+<span class="nc" id="L31">        FileInputStream fis = new FileInputStream(path);</span>
+<span class="nc" id="L32">        InputStreamReader i =new InputStreamReader(fis,&quot;UTF-8&quot;);</span>
+        try {
+<span class="nc" id="L34">            rtf.read(i,doc,0);</span>
+<span class="nc" id="L35">        } catch (BadLocationException e) {</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">        }</span>
+        try {
+<span class="nc" id="L39">            documentText = doc.getText(0,doc.getLength());</span>
+<span class="nc" id="L40">        } catch (BadLocationException e) {</span>
+<span class="nc" id="L41">            e.printStackTrace();</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc" id="L43">        splitDocumentText = documentText.split(&quot;\\R&quot;);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public void onRegister(ResumeFramework framework) {
+        
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public String getPluginName() {
+<span class="nc" id="L53">        return &quot;RTF&quot;;</span>
+    }
+    
+    @Override
+    public String getFirstName() {
+<span class="nc" id="L58">        String name = splitDocumentText[0];</span>
+<span class="nc" id="L59">        String[] splitName = name.split(&quot; &quot;);</span>
+<span class="nc" id="L60">        return splitName[0];</span>
+    }
+
+    @Override
+    public String getLastName() {
+<span class="nc" id="L65">        String name = splitDocumentText[0];</span>
+<span class="nc" id="L66">        String[] splitName = name.split(&quot; &quot;);</span>
+<span class="nc" id="L67">        return splitName[1];</span>
+    }
+
+    @Override
+    public String getEmail() {
+<span class="nc" id="L72">        String info = splitDocumentText[1];</span>
+<span class="nc" id="L73">        String[] splitInfo = info.split(&quot; +\\| +&quot;);</span>
+<span class="nc" id="L74">        return splitInfo[1];</span>
+    }
+
+    @Override
+    public String getPhoneNumber() {
+<span class="nc" id="L79">        String info = splitDocumentText[1];</span>
+<span class="nc" id="L80">        String[] splitInfo = info.split(&quot; +\\| +&quot;);</span>
+<span class="nc" id="L81">        return splitInfo[0];</span>
+    }
+
+    @Override
+    public String getAddress() {
+<span class="nc" id="L86">        String info = splitDocumentText[1];</span>
+<span class="nc" id="L87">        String[] splitInfo = info.split(&quot; +\\| +&quot;);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (splitInfo.length &gt; num3) {</span>
+<span class="nc" id="L89">            return splitInfo[num3];</span>
+        }
+<span class="nc" id="L91">        return null;</span>
+    }
+
+    @Override
+    public String getURL() {
+<span class="nc" id="L96">        String info = splitDocumentText[1];</span>
+<span class="nc" id="L97">        String[] splitInfo = info.split(&quot; +\\| +&quot;);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (splitInfo.length &lt; 3)</span>
+<span class="nc" id="L99">            return &quot; &quot;;</span>
+<span class="nc" id="L100">        return splitInfo[2];</span>
+    }
+
+    @Override
+    public List&lt;String&gt; getSkills() {
+<span class="nc" id="L105">        int startIdx = -1; </span>
+<span class="nc" id="L106">        List&lt;String&gt; skills = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (int i = 0; i &lt; splitDocumentText.length; i++) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (splitDocumentText[i].trim().equals(&quot;SKILLS&quot;)) {</span>
+<span class="nc" id="L109">                startIdx = i; </span>
+<span class="nc" id="L110">                break; </span>
+            }
+        }
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (startIdx == -1) {</span>
+<span class="nc" id="L114">            return null;</span>
+        }
+<span class="nc" id="L116">        startIdx += 1;</span>
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        while (splitDocumentText[startIdx].trim() != &quot;&quot;) {</span>
+<span class="nc" id="L119">            String skillLine = splitDocumentText[startIdx];</span>
+<span class="nc" id="L120">            String[] splitSkillLine = skillLine.split(&quot;[:,]&quot;);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            for (int j = 1; j &lt; splitSkillLine.length; j++) {</span>
+<span class="nc" id="L122">                skills.add(splitSkillLine[j].trim());</span>
+            }
+<span class="nc" id="L124">            startIdx++;</span>
+<span class="nc" id="L125">        }</span>
+<span class="nc" id="L126">        return skills;</span>
+    } 
+
+    @Override
+    public List&lt;Experience&gt; getExperience() {
+<span class="nc" id="L131">        List&lt;Integer&gt; startIdxs = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L132">        List&lt;Experience&gt; experiences = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (int i = 0; i &lt; splitDocumentText.length; i++) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (splitDocumentText[i].trim().equals(&quot;EDUCATION&quot;) ||</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                splitDocumentText[i].trim().equals(&quot;EXPERIENCE&quot;) ||</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">                splitDocumentText[i].trim().equals(&quot;&quot;)) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                    if (splitDocumentText[i + 1].split(&quot; &quot;).length &gt; 1) {</span>
+<span class="nc" id="L139">                        startIdxs.add(i + 1);</span>
+                    }
+            }
+        }
+
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        for (int idx : startIdxs) {</span>
+<span class="nc" id="L145">            experiences.add(createExperience(idx));</span>
+<span class="nc" id="L146">        }</span>
+
+<span class="nc" id="L148">        return experiences;</span>
+    }
+
+    private Experience createExperience(int startIdx) {
+<span class="nc" id="L152">        String[] splitTitle = splitDocumentText[startIdx].split(&quot; &quot;); </span>
+<span class="nc" id="L153">        String[] splitDate = splitDocumentText[startIdx + 2].split(&quot; - &quot;);</span>
+<span class="nc" id="L154">        String title = String.join(&quot; &quot;, Arrays.copyOfRange(splitTitle, 0, splitTitle.length - 2)).trim();</span>
+<span class="nc" id="L155">        String location = String.join(&quot; &quot;, Arrays.copyOfRange(splitTitle, splitTitle.length - 2, splitTitle.length)).trim();</span>
+<span class="nc" id="L156">        String position = splitDocumentText[startIdx + 1].trim(); </span>
+<span class="nc" id="L157">        String startDate = splitDate[0].trim();</span>
+<span class="nc" id="L158">        String endDate = splitDate[splitDate.length - 1].trim();</span>
+
+<span class="nc" id="L160">        List&lt;String&gt; descriptions = new ArrayList&lt;&gt;(); </span>
+<span class="nc" id="L161">        startIdx = startIdx + num3;</span>
+<span class="nc bnc" id="L162" title="All 4 branches missed.">        while (startIdx &lt; splitDocumentText.length &amp;&amp; splitDocumentText[startIdx].trim() != &quot;&quot;) {</span>
+<span class="nc" id="L163">            String cleanText = splitDocumentText[startIdx].replace(&quot;\u2022 &quot;, &quot;&quot;);</span>
+<span class="nc" id="L164">            descriptions.add(cleanText.trim());</span>
+<span class="nc" id="L165">            startIdx++;</span>
+<span class="nc" id="L166">        }</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (title.isEmpty())</span>
+<span class="nc" id="L168">            title = &quot; &quot;;</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (position.isEmpty())</span>
+<span class="nc" id="L170">            position = &quot; &quot;;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (location.isEmpty())</span>
+<span class="nc" id="L172">            location = &quot; &quot;;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        if (startDate.isEmpty())</span>
+<span class="nc" id="L174">            startDate = &quot; &quot;;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (endDate.isEmpty())</span>
+<span class="nc" id="L176">            endDate = &quot; &quot;;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (descriptions.isEmpty())</span>
+<span class="nc" id="L178">            descriptions.add(&quot; &quot;);</span>
+
+<span class="nc" id="L180">        return new Experience(title, position, location, startDate, endDate, descriptions);</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
